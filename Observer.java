@@ -6,25 +6,42 @@ interface Observer {
     void update(Task task);
 }
 
-// Notification Manager (Subject)
-class NotificationManager {
+class TaskSubject {
     private List<Observer> observers;
+    private Task task;
 
-    public NotificationManager() {
-        observers = new ArrayList<>();
+    public TaskSubject() {
+        this.observers = new ArrayList<>();
     }
 
-    public void addObserver(Observer observer) {
-        observers.add(observer);
+    public void attach(Observer observer) {
+        this.observers.add(observer);
     }
 
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
+    public void detach(Observer observer) {
+        this.observers.remove(observer);
     }
 
-    public void notifyObservers(Task task) {
+    public void notifyObservers() {
         for (Observer observer : observers) {
             observer.update(task);
         }
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+}
+
+class UserObserver implements Observer {
+    private String name;
+
+    public UserObserver(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(Task task) {
+        System.out.println("Hello, " + name + "! Task has been updated. New details: " + task);
     }
 }
