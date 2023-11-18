@@ -26,7 +26,7 @@ public class Main {
 
         // Simulate task update
         task.setAssignee("Bob");
-        taskManager.createTask(task);
+        taskManager.updateTask(task);
 
         // Undo the task creation
         createTaskCommand.undo();
