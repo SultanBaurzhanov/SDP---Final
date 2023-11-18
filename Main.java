@@ -8,18 +8,27 @@ public class Main {
                 .build();
 
         TaskManager taskManager = new TaskManager();
+
+        // Create users and set up notification preferences
+        User tom = new User("Tom");
+        User jane = new User("Jane");
+
+        // Add users as observers to the TaskManager
+        taskManager.addObserver(tom);
+        taskManager.addObserver(jane);
+
+        // Assign a notification preference for users
+        tom.setNotificationPreference(new EmailNotification());
+        jane.setNotificationPreference(new SmsNotification());
+
         CreateTaskCommand createTaskCommand = new CreateTaskCommand(task, taskManager);
         createTaskCommand.execute();
+
+        // Simulate task update
+        task.setAssignee("Bob");
+        taskManager.createTask(task);
+
+        // Undo the task creation
         createTaskCommand.undo();
-
-        AssignTaskCommand assignTaskCommand = new AssignTaskCommand("T2", "Jane", taskManager);
-        assignTaskCommand.execute();
-        assignTaskCommand.undo();
-
-        User user = new User("Tom");
-        user.update("T1");
-
-        Notification notificationSystem = new NotificationSystem(new EmailNotification());
-        notificationSystem.notify("T1");
     }
 }
