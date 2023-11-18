@@ -1,17 +1,37 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class TaskManager {
     private Map<String, Task> tasks;
+    private List<Observer> observers;
 
     public TaskManager() {
         this.tasks = new HashMap<>();
+        this.observers = new ArrayList<>();
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers(String taskId) {
+        for (Observer observer : observers) {
+            observer.update(taskId);
+        }
     }
 
     public void createTask(Task task) {
         tasks.put(task.getTaskId(), task);
         System.out.println("Task created: " + task.getTaskId());
+        notifyObservers(task.getTaskId()); // Notify observers upon task creation
     }
+
 
     public void deleteTask(Task task) {
         tasks.remove(task.getTaskId());
