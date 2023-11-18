@@ -41,7 +41,7 @@ class EmailNotificationHandler extends NotificationHandler {
     }
 }
 
-// App Notification Handler (Example handler)
+// App Notification Handler 
 class AppNotificationHandler extends NotificationHandler {
     @Override
     public void handleNotification(Task task, NotificationPreferences preferences) {
