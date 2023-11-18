@@ -32,7 +32,16 @@ class TaskManager {
         notifyObservers(task.getTaskId()); // Notify observers upon task creation
     }
 
-
+    public void updateTask(Task task) {
+        if (tasks.containsKey(task.getTaskId())) {
+            tasks.put(task.getTaskId(), task);
+            System.out.println("Task updated: " + task.getTaskId());
+            notifyObservers(task.getTaskId()); // Notify observers upon task update
+        } else {
+            System.out.println("Task " + task.getTaskId() + " not found");
+        }
+    }
+    
     public void deleteTask(Task task) {
         tasks.remove(task.getTaskId());
         System.out.println("Task deleted: " + task.getTaskId());
