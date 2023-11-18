@@ -1,48 +1,43 @@
-import java.util.ArrayList;
-import java.util.List;
-
-// Command
+// Command pattern
 interface Command {
     void execute();
     void undo();
 }
 
-// CreateTaskCommand
 class CreateTaskCommand implements Command {
     private Task task;
-    private TaskList taskList;
+    private TaskManager taskManager;
 
-    public CreateTaskCommand(Task task, TaskList taskList) {
+    public CreateTaskCommand(Task task, TaskManager taskManager) {
         this.task = task;
-        this.taskList = taskList;
+        this.taskManager = taskManager;
     }
 
     public void execute() {
-        taskList.addTask(task);
+        taskManager.createTask(task);
     }
 
     public void undo() {
-        taskList.removeTask(task);
+        taskManager.deleteTask(task);
     }
 }
 
-// TaskList
-class TaskList {
-    private List<Task> tasks;
+class AssignTaskCommand implements Command {
+    private String taskId;
+    private String assignee;
+    private TaskManager taskManager;
 
-    public TaskList() {
-        tasks = new ArrayList<>();
+    public AssignTaskCommand(String taskId, String assignee, TaskManager taskManager) {
+        this.taskId = taskId;
+        this.assignee = assignee;
+        this.taskManager = taskManager;
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
+    public void execute() {
+        taskManager.assignTask(taskId, assignee);
     }
 
-    public void removeTask(Task task) {
-        tasks.remove(task);
-    }
-
-    public List<Task> getAllTasks() {
-        return new ArrayList<>(tasks);
+    public void undo() {
+        taskManager.unassignTask(taskId);
     }
 }
