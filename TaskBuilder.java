@@ -1,43 +1,71 @@
-import java.util.Stack;
-
-public class Task {
-    private int id;
-    private String name;
+// Builder pattern
+class Task {
+    private String taskId;
+    private String taskName;
+    private String assignee;
     private String description;
-    private String status;
 
-    public Task(TaskBuilder taskBuilder) {
-        this.id = taskBuilder.id;
-        this.name = taskBuilder.name;
-        this.description = taskBuilder.description;
-        this.status = taskBuilder.status;
+    public String getTaskId() {
+        return taskId;
     }
 
-    // getters and setters
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
 
-public class TaskBuilder {
-    private int id;
-    private String name;
-    private String description;
-    private String status;
+class TaskBuilder {
+    private Task task;
 
-    public TaskBuilder(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public TaskBuilder() {
+        task = new Task();
     }
 
-    public TaskBuilder description(String description) {
-        this.description = description;
+    public TaskBuilder setTaskId(String taskId) {
+        task.setTaskId(taskId);
         return this;
     }
 
-    public TaskBuilder status(String status) {
-        this.status = status;
+    public TaskBuilder setTaskName(String taskName) {
+        task.setTaskName(taskName);
+        return this;
+    }
+
+    public TaskBuilder setAssignee(String assignee) {
+        task.setAssignee(assignee);
+        return this;
+    }
+
+    public TaskBuilder setDescription(String description) {
+        task.setDescription(description);
         return this;
     }
 
     public Task build() {
-        return new Task(this);
+        return task;
     }
 }
