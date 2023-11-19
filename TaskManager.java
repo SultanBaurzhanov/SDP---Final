@@ -56,4 +56,7 @@ class TaskManager {
             System.out.println("Task " + taskId + " not found");
         }
     }
+    public Task getTaskById(String taskId) {
+        return tasks.get(taskId);
+    }
 }
