@@ -41,7 +41,7 @@ public class Main {
                             .build();
 
 
-                // Спрашиваем пользователя о предпочтениях уведомлений
+                // Asking the user about notification preferences
                 System.out.println("\nSelect notification preference:");
                 System.out.println("1. Email");
                 System.out.println("2. SMS");
@@ -77,14 +77,14 @@ public class Main {
                 break;
 
                 case 2:
-                    // Запрос информации о назначении задачи
+                    // Request information about the assignment of the task
                     System.out.println("\nEnter Task Assignment details:");
                     System.out.print("Task ID: ");
                     String taskIdForAssignment = scanner.nextLine();
                     System.out.print("Assignee: ");
                     String assigneeForTask = scanner.nextLine();
 
-                    // Создание команды AssignTaskCommand и выполнение операции
+                    // Creating the Assign Task Command and performing the operation
                     AssignTaskCommand assignTaskCommand = new AssignTaskCommand(taskIdForAssignment, assigneeForTask, taskManager);
                     assignTaskCommand.execute();
                     System.out.println("Task assigned. Undo option available. Press 'u' to undo.");
