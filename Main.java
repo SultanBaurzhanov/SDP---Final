@@ -16,12 +16,18 @@ public class Main {
         while (true) {
             System.out.println("\n1. Create a Task");
             System.out.println("2. Assign Task");
-            System.out.println("3. Exit");
+            System.out.println("3. Unassign Task");
+            System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
 
             switch (choice) {
+                case 0:
+                    System.out.println("Exiting Task Planner. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                    break;
                 case 1:
                     System.out.println("\nEnter Task details:");
                     System.out.print("Task ID: ");
@@ -84,7 +90,7 @@ public class Main {
                     System.out.print("Assignee: ");
                     String assigneeForTask = scanner.nextLine();
 
-                    // Creating the Assign Task Command and performing the operation
+                    // // Creating the Assign Task Command and performing the operation
                     AssignTaskCommand assignTaskCommand = new AssignTaskCommand(taskIdForAssignment, assigneeForTask, taskManager);
                     assignTaskCommand.execute();
                     System.out.println("Task assigned. Undo option available. Press 'u' to undo.");
@@ -95,11 +101,22 @@ public class Main {
                         System.out.println("Task assignment undone.");
                     }
                     break;
-
                 case 3:
-                    System.out.println("Exiting Task Planner. Goodbye!");
-                    scanner.close();
-                    System.exit(0);
+                    // Request information to cancel task assignment
+                    System.out.println("\nEnter Task Unassignment details:");
+                    System.out.print("Task ID: ");
+                    String taskIdForUnassignment = scanner.nextLine();
+
+                    // Creating the UnassignTaskCommand command and performing the operation
+                    AssignTaskCommand unassignTaskCommand = new AssignTaskCommand(taskIdForUnassignment, null, taskManager);
+                    unassignTaskCommand.undo();
+                    System.out.println("Task unassigned. Redo option available. Press 'r' to redo.");
+
+                    char unassignmentChoice = scanner.nextLine().charAt(0);
+                    if (unassignmentChoice == 'r') {
+                        unassignTaskCommand.redo();
+                        System.out.println("Task unassignment redone.");
+                    }
                     break;
 
                 default:
