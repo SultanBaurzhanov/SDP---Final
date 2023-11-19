@@ -13,7 +13,9 @@ public class Main {
         taskManager.addObserver(user);
 
         System.out.println("Welcome to Task Planner!");
-        while (true) {
+
+        boolean exit = false;
+        while (!exit) {
             System.out.println("\n1. Create a Task");
             System.out.println("2. Assign Task");
             System.out.println("3. Unassign Task");
@@ -47,40 +49,40 @@ public class Main {
                             .build();
 
 
-                // Asking the user about notification preferences
-                System.out.println("\nSelect notification preference:");
-                System.out.println("1. Email");
-                System.out.println("2. SMS");
-                System.out.print("Enter your choice: ");
-                int notificationChoice = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                    // Asking the user about notification preferences
+                    System.out.println("\nSelect notification preference:");
+                    System.out.println("1. Email");
+                    System.out.println("2. SMS");
+                    System.out.print("Enter your choice: ");
+                    int notificationChoice = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
 
-                Notification notificationPreference;
-                switch (notificationChoice) {
-                    case 1:
-                        notificationPreference = new EmailNotification();
-                        break;
-                    case 2:
-                        notificationPreference = new SmsNotification();
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Setting default notification preference to Email.");
-                        notificationPreference = new EmailNotification();
-                        break;
-                }
+                    Notification notificationPreference;
+                    switch (notificationChoice) {
+                        case 1:
+                            notificationPreference = new EmailNotification();
+                            break;
+                        case 2:
+                            notificationPreference = new SmsNotification();
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Setting default notification preference to Email.");
+                            notificationPreference = new EmailNotification();
+                            break;
+                    }
 
-                user.setNotificationPreference(notificationPreference);
+                    user.setNotificationPreference(notificationPreference);
 
-                CreateTaskCommand createTaskCommand = new CreateTaskCommand(task, taskManager);
-                createTaskCommand.execute();
-                System.out.println("Task created. Undo option available. Press 'u' to undo.");
+                    CreateTaskCommand createTaskCommand = new CreateTaskCommand(task, taskManager);
+                    createTaskCommand.execute();
+                    System.out.println("Task created. Undo option available. Press 'u' to undo.");
 
-                char choice2 = scanner.next().charAt(0);
-                if (choice2 == 'u') {
-                    createTaskCommand.undo();
-                    System.out.println("Task creation undone.");
-                }
-                break;
+                    char choice2 = scanner.next().charAt(0);
+                    if (choice2 == 'u') {
+                        createTaskCommand.undo();
+                        System.out.println("Task creation undone.");
+                    }
+                    break;
 
                 case 2:
                     // Request information about the assignment of the task
@@ -93,32 +95,39 @@ public class Main {
                     // // Creating the Assign Task Command and performing the operation
                     AssignTaskCommand assignTaskCommand = new AssignTaskCommand(taskIdForAssignment, assigneeForTask, taskManager);
                     assignTaskCommand.execute();
-                    System.out.println("Task assigned. Undo option available. Press 'u' to undo.");
+                    if (taskManager.getTaskById(taskIdForAssignment) != null) {
+                        System.out.println("Task assigned. Undo option available. Press 'u' to undo.");
 
-                    char assignmentChoice = scanner.next().charAt(0);
-                    if (assignmentChoice == 'u') {
-                        assignTaskCommand.undo();
-                        System.out.println("Task assignment undone.");
+                        char assignmentChoice = scanner.nextLine().charAt(0);
+                        if (assignmentChoice == 'u') {
+                            assignTaskCommand.undo();
+                            System.out.println("Task assignment undone.");
+                        }
                     }
                     break;
+
                 case 3:
-                    // Request information to cancel task assignment
+                    // Request information to cancel a task assignment
                     System.out.println("\nEnter Task Unassignment details:");
                     System.out.print("Task ID: ");
                     String taskIdForUnassignment = scanner.nextLine();
 
-                    // Creating the UnassignTaskCommand command and performing the operation
-                    AssignTaskCommand unassignTaskCommand = new AssignTaskCommand(taskIdForUnassignment, null, taskManager);
-                    unassignTaskCommand.undo();
-                    System.out.println("Task unassigned. Redo option available. Press 'r' to redo.");
+                    // Checking whether there is a task with the specified ID
+                    if (taskManager.getTaskById(taskIdForUnassignment) != null) {
+                        // Checking for a task with the specified ID
+                        AssignTaskCommand unassignTaskCommand = new AssignTaskCommand(taskIdForUnassignment, null, taskManager);
+                        unassignTaskCommand.undo();
+                        System.out.println("Task unassigned. Redo option available. Press 'r' to redo.");
 
-                    char unassignmentChoice = scanner.nextLine().charAt(0);
-                    if (unassignmentChoice == 'r') {
-                        unassignTaskCommand.redo();
-                        System.out.println("Task unassignment redone.");
+                        char unassignmentChoice = scanner.nextLine().charAt(0);
+                        if (unassignmentChoice == 'r') {
+                            unassignTaskCommand.redo();
+                            System.out.println("Task unassignment redone.");
+                        }
+                    } else {
+                        System.out.println("Task not found.");
                     }
                     break;
-
                 default:
                     System.out.println("Invalid choice. Please enter a valid option.");
                     break;
