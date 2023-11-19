@@ -75,7 +75,7 @@ public class Main {
 
                     CreateTaskCommand createTaskCommand = new CreateTaskCommand(task, taskManager);
                     createTaskCommand.execute();
-                    System.out.println("Task created. Undo option available. Press 'u' to undo.");
+                    System.out.println("Task created. Undo option available. Press 'u' to undo. Press any key to return to the menu");
 
                     char choice2 = scanner.next().charAt(0);
                     if (choice2 == 'u') {
@@ -96,7 +96,7 @@ public class Main {
                     AssignTaskCommand assignTaskCommand = new AssignTaskCommand(taskIdForAssignment, assigneeForTask, taskManager);
                     assignTaskCommand.execute();
                     if (taskManager.getTaskById(taskIdForAssignment) != null) {
-                        System.out.println("Task assigned. Undo option available. Press 'u' to undo.");
+                        System.out.println("Task assigned. Undo option available. Press 'u' to undo. Press any key to return to the menu");
 
                         char assignmentChoice = scanner.nextLine().charAt(0);
                         if (assignmentChoice == 'u') {
@@ -117,7 +117,7 @@ public class Main {
                         // Checking for a task with the specified ID
                         AssignTaskCommand unassignTaskCommand = new AssignTaskCommand(taskIdForUnassignment, null, taskManager);
                         unassignTaskCommand.undo();
-                        System.out.println("Task unassigned. Redo option available. Press 'r' to redo.");
+                        System.out.println("Task unassigned. Redo option available. Press 'r' to redo. Press any key to return to the menu");
 
                         char unassignmentChoice = scanner.nextLine().charAt(0);
                         if (unassignmentChoice == 'r') {
